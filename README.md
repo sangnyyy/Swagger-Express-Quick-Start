@@ -1,12 +1,12 @@
 # Swagger Start with Express
 
 
-###Install swagger
+### Install swagger
 ```bash
 $ npm install -g swagger
 ```
 
-###Command 
+### Command 
 ```bash
 $ swagger project create "project-name"
 $ swagger project edit "project-name"
@@ -15,7 +15,7 @@ $ swagger project start "project-name"
 $ swagger project test "project-name"
 ```
 
-###Structure
+### Structure
 
 ```bash
 /project-name
@@ -29,7 +29,7 @@ $ swagger project test "project-name"
     /test
 ```
 
-###API Design
+### API Design
 
 ```bash
 $ swagger project edit
@@ -52,7 +52,7 @@ The value assigned to the x-swagger-router-controller key is the JavaScript file
 ##### operationId
 operationId is mapped with method of x-swagger-router-controller javascript file method.
 
-###Swagger-ui interlock
+### Swagger-ui interlock
 
 app.js:
 ```javascript
@@ -103,7 +103,7 @@ security:
 without api key:
 ![img](./img/error.png)
 
-###Dynamic hosting
+### Dynamic hosting
 app.js:
 ```javascript
 SwaggerExpress.create(config, function(err, swaggerExpress) {
