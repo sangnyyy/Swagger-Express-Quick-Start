@@ -1,9 +1,10 @@
 swagger: "2.0"
+
 info:
   version: "0.0.1"
-  title: Hello World App
+  title: SMU SPORTS
 # during dev, should point to your local machine
-host: localhost:10010
+host: localhost:3000
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -17,44 +18,567 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
+
 paths:
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
-    get:
-      description: Returns 'Hello' to the caller
+  /auth/signin:
+    post:
+      description: sign in authentication
       # used as the method name of the controller
-      operationId: hello
       parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
+        - name: User Information
+          in: body
+          required: true
+          description: enter email and password
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: "abc@abc.com"
+              password:
+                type: string
+                example: "1111"
       responses:
         "200":
-          description: Success
+          description: Sign in Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
+            $ref: "#/definitions/SigninResponse"
         # responses may fall through to errors
-        default:
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"              
+
+  /auth/signup:
+    post:
+      description: sign up process
+      # used as the method name of the controller
+      parameters:
+        - name: User Information
+          in: body
+          required: true
+          description: enter user information
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: "abc@abc.com"
+              password:
+                type: string
+                example: "1111"
+              name:
+                type: string
+                example: "james"
+              nickname:
+                type: string
+                example: "nafla"
+              
+      responses:
+        "200":
+          description: Sign up Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SignupResponse"
+        # responses may fall through to errors
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"              
+            
+  /user/info:
+    get:
+      description: Show User Information
+      # used as the method name of the controller
+      parameters:
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+          
+      
+      responses:
+        "200":
+          description: User Information Exist
+          schema:
+            $ref: "#/definitions/UserInfoResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"              
+        
+  /user/edit:
+    put:
+      description: Edit User Information
+      parameters:
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+        
+        - name: User Information
+          in: body
+          required: false
+          description: enter something you want to change
+          schema:
+            type: object
+            
+      responses:
+        "200":
+          description: User Information Edit
+          schema:
+            $ref: "#/definitions/UserEditResponse"
+        "500":
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /swagger:
-    x-swagger-pipe: swagger_raw
+  
+  /board/create:
+    post:
+      parameters:
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+          
+        - name: title, content
+          in: body
+          required: false
+          description: enter something you want to change
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: "Hello"
+              content:
+                type: string
+                example: "Hello World!"
+      responses:
+        "200":
+          description: User Information Edit
+          schema:
+            $ref: "#/definitions/BoardCreateResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /board/edit/{_id}:
+    put:
+      parameters:
+        - name: _id
+          in: path
+          required: true
+          description: board id want to change
+          type: string
+          
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+          
+        - name: Board Information
+          in: body
+          required: false
+          description: enter something you want to change
+          schema:
+            type: object
+        
+      responses:
+        "200":
+          description: Board Information Edit
+          schema:
+            $ref: "#/definitions/BoardEditResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /board/show:
+    get:
+      parameters:
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+        
+        
+      responses:
+        "200":
+          description: Show All Of Boards!
+          schema:
+            $ref: "#/definitions/BoardShowResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+            
+  /board/remove/{_id}:
+    delete:
+      parameters:
+        - name: _id
+          in: path
+          required: true
+          description: board id want to delete
+          type: string
+          
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+        
+        
+      responses:
+        "200":
+          description: Board Delete
+          schema:
+            $ref: "#/definitions/BoardDeleteResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /board-comment/create/{board_id}:
+    post:
+      parameters:
+        - name: board_id
+          in: path
+          required: true
+          type: string
+          description: board_id is a board id which is used for making comment 
+      
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+          
+        - name: content
+          in: body
+          required: false
+          description: enter something you want to change
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+                example: "Hello World!"
+      responses:
+        "200":
+          description: User Information Edit
+          schema:
+            $ref: "#/definitions/CommentCreateResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /board-comment/edit/{_id}:
+    put:
+      parameters:
+        - name: _id
+          in: path
+          required: true
+          description: comment id want to change
+          type: string
+          
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+          
+        - name: Comment Information
+          in: body
+          required: false
+          description: enter something you want to change
+          schema:
+            type: object
+        
+      responses:
+        "200":
+          description: Board Information Edit
+          schema:
+            $ref: "#/definitions/CommentEditResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /board-comment/show/{board_id}:
+    get:
+      parameters:
+        - name: board_id
+          in: path
+          required: true
+          type: string
+          description: board_id is a board id which is used for showing comment 
+          
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+        
+        
+      responses:
+        "200":
+          description: Show All Of Comments on Board!
+          schema:
+            $ref: "#/definitions/CommentShowResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /board-comment/remove/{_id}:
+    delete:
+      parameters:
+        - name: _id
+          in: path
+          required: true
+          description: comment id want to delete
+          type: string
+          
+        - name: token
+          in: query
+          required: true
+          type: string
+          description: enter token when received at sign in
+        
+        
+      responses:
+        "200":
+          description: Board Delete
+          schema:
+            $ref: "#/definitions/CommentDeleteResponse"
+        "500":
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      
+      
+      
+
 # complex objects have schema definitions
 definitions:
-  HelloWorldResponse:
+  SigninResponse:
     required:
-      - message
+      - stat
+      - msgs
+      - token
     properties:
-      message:
+      stat:
         type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "login success"
+      token:
+        type: string
+        example: "sdfskjl1j351@jkjGkj23@#$@%skjfs(1"
+        
+  SignupResponse:
+    required:
+      - stat
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      data:
+        type: object
+        example: "{ \
+                    'name' : 'nafla', \
+                    'nickname' : 'nafla', \
+                    'email' : 'sjkfs@aja.com'
+                  }"
+  
+  UserInfoResponse:
+    required:
+      - stat
+      - msgs
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "user find success"
+      data:
+        type: object
+        example: "{ \n
+                    'name' : 'nafla', \n
+                    'nickname' : 'nafla', \n
+                    'email' : 'sjkfs@aja.com' \n
+                  }"
+  
+  UserEditResponse:
+    required:
+      - stat
+      - msgs
+    properties:
+      stat:
+        type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "update user success"
+        
+  BoardCreateResponse:
+    required:
+      - stat
+      - msgs
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "update user success"
+      data:
+        type: object
+        example: "{ \n
+                    'author' : 'nafla', \n
+                    'title' : 'Hello', \n
+                    'content' : 'Hello', \n
+                    'writetime' : '2015-02-03 11:00:14'
+                  }"
+  
+  BoardEditResponse:
+    required:
+      - stat
+      - msgs
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "update board success"
+      data:
+        type: object
+        example: "{ \n
+                    '_id' : 'f1jkljljdsjkflj3j', \n
+                    'author' : 'nafla', \n
+                    'title' : 'Hello', \n
+                    'content' : 'Hello', \n
+                    'writetime' : '2015-02-03 11:00:14'
+                  }"
+  
+  BoardShowResponse:
+    required:
+      - stat
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      data:
+        type: object
+  
+  BoardDeleteResponse:
+    required:
+      - stat
+      - msgs
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "delete board success"
+      data:
+        type: object
+        example: "{ \n
+                    '_id' : 'f1jkljljdsjkflj3j' \n
+                  }"
+  CommentCreateResponse:
+    required:
+      - stat
+      - msgs
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "update user success"
+      data:
+        type: object
+        example: "{ \n
+                    '_id' : 'afhkajfklajlfja', \n
+                    'board_id' : 'afjalf1kjlf1j33', \n
+                    'author' : 'nafla', \n
+                    'content' : 'Hello', \n
+                    'writetime' : '2015-02-03 11:00:14'
+                  }"
+                  
+  CommentEditResponse:
+    required:
+      - stat
+      - msgs
+    properties:
+      stat:
+        type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "update comment success"
+        
+  CommentShowResponse:
+    required:
+      - stat
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      data:
+        type: object
+        
+  CommentDeleteResponse:
+    required:
+      - stat
+      - msgs
+      - data
+    properties:
+      stat:
+        type: string
+        example: "success"
+      msgs:
+        type: string
+        example: "delete comment success"
+      data:
+        type: object
+        example: "{ \n
+                    '_id' : 'f1jkljljdsjkflj3j' \n
+                  }"
+        
+  
+      
+        
   ErrorResponse:
     required:
-      - message
+      - stat
+      - msgs
     properties:
-      message:
+      stat:
         type: string
+        example: "fail"
+      msgs:
+        type: string
+        example: "password incorrect"
