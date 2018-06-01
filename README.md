@@ -120,7 +120,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 ## Swagger-ui Screen-Shot
 ![img](./img/swagger-ui.png)
 
-> PUT 메소드 사용시에 렌더링이 안되는 문제가 발생했었으나 Swagger-UI 버전 2.2.0을 설치하여 
+> PUT 메소드 사용시에 렌더링이 안되는 문제가 발생했었으나 Swagger-UI 버전 2.2.0을 설치하여 <br/>
 node_modules/swagger-tools/middleware의 swagger-ui를 새로 다운로드 받은것으로 교체해줌!
 
 ## References
