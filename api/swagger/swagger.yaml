@@ -97,8 +97,8 @@ paths:
           required: true
           type: string
           description: enter token when received at sign in
-          
-      
+
+
       responses:
         "200":
           description: User Information Exist
@@ -107,8 +107,9 @@ paths:
         "500":
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"              
-        
+            $ref: "#/definitions/ErrorResponse"
+
+
   /user/edit:
     put:
       description: Edit User Information
@@ -118,14 +119,17 @@ paths:
           required: true
           type: string
           description: enter token when received at sign in
-        
+
         - name: User Information
           in: body
           required: false
           description: enter something you want to change
           schema:
             type: object
-            
+      consumes:
+        - application/json
+      produces:
+        - application/json
       responses:
         "200":
           description: User Information Edit
@@ -135,7 +139,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
+
   /board/create:
     post:
       parameters:
@@ -144,7 +148,7 @@ paths:
           required: true
           type: string
           description: enter token when received at sign in
-          
+
         - name: title, content
           in: body
           required: false
@@ -167,38 +171,42 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
   /board/edit/{_id}:
-    put:
-      parameters:
-        - name: _id
-          in: path
-          required: true
-          description: board id want to change
-          type: string
-          
-        - name: token
-          in: query
-          required: true
-          type: string
-          description: enter token when received at sign in
-          
-        - name: Board Information
-          in: body
-          required: false
-          description: enter something you want to change
-          schema:
-            type: object
-        
-      responses:
-        "200":
-          description: Board Information Edit
-          schema:
-            $ref: "#/definitions/BoardEditResponse"
-        "500":
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  
+     put:
+       parameters:
+         - name: _id
+           in: path
+           required: true
+           description: board id want to change
+           type: string
+
+         - name: token
+           in: query
+           required: true
+           type: string
+           description: enter token when received at sign in
+
+         - name: Board Information
+           in: body
+           required: false
+           description: enter something you want to change
+           schema:
+             type: object
+       consumes:
+         - application/json
+       produces:
+         - application/json
+       responses:
+         "200":
+           description: Board Information Edit
+           schema:
+             $ref: "#/definitions/BoardEditResponse"
+         "500":
+           description: Error
+           schema:
+             $ref: "#/definitions/ErrorResponse"
+
   /board/show:
     get:
       parameters:
@@ -207,8 +215,8 @@ paths:
           required: true
           type: string
           description: enter token when received at sign in
-        
-        
+
+
       responses:
         "200":
           description: Show All Of Boards!
@@ -218,8 +226,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-            
-            
+
   /board/remove/{_id}:
     delete:
       parameters:
@@ -228,14 +235,14 @@ paths:
           required: true
           description: board id want to delete
           type: string
-          
+
         - name: token
           in: query
           required: true
           type: string
           description: enter token when received at sign in
-        
-        
+
+
       responses:
         "200":
           description: Board Delete
@@ -245,7 +252,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  
+
   /board-comment/create/{board_id}:
     post:
       parameters:
@@ -253,14 +260,14 @@ paths:
           in: path
           required: true
           type: string
-          description: board_id is a board id which is used for making comment 
-      
+          description: board_id is a board id which is used for making comment
+
         - name: token
           in: query
           required: true
           type: string
           description: enter token when received at sign in
-          
+
         - name: content
           in: body
           required: false
@@ -280,7 +287,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-            
+
   /board-comment/edit/{_id}:
     put:
       parameters:
@@ -289,20 +296,20 @@ paths:
           required: true
           description: comment id want to change
           type: string
-          
+
         - name: token
           in: query
           required: true
           type: string
           description: enter token when received at sign in
-          
+
         - name: Comment Information
           in: body
           required: false
           description: enter something you want to change
           schema:
             type: object
-        
+
       responses:
         "200":
           description: Board Information Edit
@@ -312,7 +319,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-            
+
   /board-comment/show/{board_id}:
     get:
       parameters:
@@ -320,15 +327,15 @@ paths:
           in: path
           required: true
           type: string
-          description: board_id is a board id which is used for showing comment 
-          
+          description: board_id is a board id which is used for showing comment
+
         - name: token
           in: query
           required: true
           type: string
           description: enter token when received at sign in
-        
-        
+
+
       responses:
         "200":
           description: Show All Of Comments on Board!
@@ -338,7 +345,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-            
+
   /board-comment/remove/{_id}:
     delete:
       parameters:
@@ -347,14 +354,14 @@ paths:
           required: true
           description: comment id want to delete
           type: string
-          
+
         - name: token
           in: query
           required: true
           type: string
           description: enter token when received at sign in
-        
-        
+
+
       responses:
         "200":
           description: Board Delete
@@ -416,10 +423,10 @@ definitions:
         example: "user find success"
       data:
         type: object
-        example: "{ \n
-                    'name' : 'nafla', \n
-                    'nickname' : 'nafla', \n
-                    'email' : 'sjkfs@aja.com' \n
+        example: "{
+                    'name' : 'nafla',
+                    'nickname' : 'nafla',
+                    'email' : 'sjkfs@aja.com'
                   }"
   
   UserEditResponse:
@@ -448,10 +455,10 @@ definitions:
         example: "update user success"
       data:
         type: object
-        example: "{ \n
-                    'author' : 'nafla', \n
-                    'title' : 'Hello', \n
-                    'content' : 'Hello', \n
+        example: "{
+                    'author' : 'nafla',
+                    'title' : 'Hello',
+                    'content' : 'Hello',
                     'writetime' : '2015-02-03 11:00:14'
                   }"
   
@@ -469,11 +476,11 @@ definitions:
         example: "update board success"
       data:
         type: object
-        example: "{ \n
-                    '_id' : 'f1jkljljdsjkflj3j', \n
-                    'author' : 'nafla', \n
-                    'title' : 'Hello', \n
-                    'content' : 'Hello', \n
+        example: "{
+                    '_id' : 'f1jkljljdsjkflj3j',
+                    'author' : 'nafla',
+                    'title' : 'Hello',
+                    'content' : 'Hello',
                     'writetime' : '2015-02-03 11:00:14'
                   }"
   
@@ -502,8 +509,8 @@ definitions:
         example: "delete board success"
       data:
         type: object
-        example: "{ \n
-                    '_id' : 'f1jkljljdsjkflj3j' \n
+        example: "{
+                    '_id' : 'f1jkljljdsjkflj3j'
                   }"
   CommentCreateResponse:
     required:
@@ -519,11 +526,11 @@ definitions:
         example: "update user success"
       data:
         type: object
-        example: "{ \n
-                    '_id' : 'afhkajfklajlfja', \n
-                    'board_id' : 'afjalf1kjlf1j33', \n
-                    'author' : 'nafla', \n
-                    'content' : 'Hello', \n
+        example: "{
+                    '_id' : 'afhkajfklajlfja',
+                    'board_id' : 'afjalf1kjlf1j33',
+                    'author' : 'nafla',
+                    'content' : 'Hello',
                     'writetime' : '2015-02-03 11:00:14'
                   }"
                   
@@ -564,8 +571,8 @@ definitions:
         example: "delete comment success"
       data:
         type: object
-        example: "{ \n
-                    '_id' : 'f1jkljljdsjkflj3j' \n
+        example: "{
+                    '_id' : 'f1jkljljdsjkflj3j'
                   }"
         
   
